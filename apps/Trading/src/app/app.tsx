@@ -1,14 +1,25 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '../routes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ErrorBoundary } from '../pages/ErrorBoundary';
+import { DAY } from '../consts/time';
 
-import NxWelcome from './nx-welcome';
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            gcTime: DAY,
+        },
+    },
+});
 
 export function App() {
-  return (
-    <div>
-      <NxWelcome title="Trading" />
-    </div>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <ErrorBoundary>
+                <RouterProvider router={router} />
+            </ErrorBoundary>
+        </QueryClientProvider>
+    );
 }
 
 export default App;
